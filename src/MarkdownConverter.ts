@@ -2,7 +2,7 @@ import DOMPurify from "dompurify";
 import { marked } from "marked";
 import TurndownService from "turndown";
 
-const turndownService = new TurndownService();
+const turndownService = new TurndownService({ codeBlockStyle: "fenced" });
 
 turndownService.addRule("strikethrough", {
   filter: ["del", "s", "strike"] as any,
@@ -20,7 +20,6 @@ class MarkdownConverter {
   }
 
   public convertHtmlToMarkdown(html: string): string {
-    console.log(html);
     return turndownService.turndown(html);
   }
 }
