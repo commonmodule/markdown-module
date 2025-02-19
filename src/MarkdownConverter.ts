@@ -4,12 +4,23 @@ import TurndownService from "turndown";
 
 const turndownService = new TurndownService();
 
+turndownService.addRule("strikethrough", {
+  filter: ["del", "s", "strike"] as any,
+  replacement: (content) => "~" + content + "~",
+});
+
+turndownService.addRule("heading", {
+  filter: "h1",
+  replacement: (content) => "# " + content,
+});
+
 class MarkdownConverter {
   public async convertMarkdownToHtml(markdown: string): Promise<string> {
     return DOMPurify.sanitize(await marked(markdown));
   }
 
   public convertHtmlToMarkdown(html: string): string {
+    console.log(html);
     return turndownService.turndown(html);
   }
 }
